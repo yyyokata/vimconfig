@@ -37,9 +37,6 @@
 [submodule "vim/bundle/vim-railscasts-theme"]
 	path = vim/bundle/vim-railscasts-theme
 	url = git@github.com:jpo/vim-railscasts-theme.git
-[submodule "vim/bundle/railstab.vim"]
-	path = vim/bundle/railstab.vim
-	url = git@github.com:vim-scripts/railstab.vim.git
 [submodule "vim/bundle/rainbow_parentheses.vim"]
 	path = vim/bundle/rainbow_parentheses.vim
 	url = git@github.com:kien/rainbow_parentheses.vim.git
@@ -82,3 +79,6 @@
 [submodule "vim/bundle/wombat.vim"]
 	path = vim/bundle/wombat.vim
 	url = git@github.com:wesQ3/wombat.vim.git
+[submodule "vim/bundle/vim-gutentags"]
+	path = vim/bundle/vim-gutentags
+	url = git@github.com:ludovicchabant/vim-gutentags.git

@@ -1,35 +1,131 @@
 set nocompatible
 filetype off
-set rtp+=~/.vim/bundle/vundle
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-Bundle 'gmarik/vundle'
-Bundle 'Valloric/YouCompleteMe'
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+" All themes
+Bundle 'Railscasts-Theme-GUIand256color'
+Bundle 'desert.vim'
+Bundle 'desert256.vim'
 Bundle 'tomasr/molokai'
 Bundle 'altercation/vim-colors-solarized'
-Bundle 'wombat256.vim'
-Bundle 'Wombat'
-Bundle 'Railscasts-Theme-GUIand256color'
-Bundle 'railscasts'
-Bundle 'desert256.vim'
-Bundle 'desert.vim'
+Plugin 'jpo/vim-railscasts-theme'
+Bundle 'wombat.vim'
+" ale
+Plugin 'dense-analysis/ale'
+  "始终开启标志列
+  let g:ale_sig_column_always = 1
+  let g:ale_set_highlights = 1
+  let g:ale_sign_error = "E"
+  let g:ale_sign_warning = "W"
+  "vim自带状态栏中整合ale
+  let g:ale_statusline_format = ['XXH  %d','W  %d','OK']
+  "显示linter名称,出错或警告等相关信息
+  let g:ale_echo_msg_error_str = "E"
+  let g:ale_echo_msg_warning_str = "W"
+  let g:ale_echo_msg_format = '[%linter%] %s [%serverity%]'
+  "只有保存时才进行语法检测
+  let g:ale_lint_on_text_changed = "never"
+  let g:ale_lint_on_insert_leave = 0
+  let g:ale_lint_on_enter = 1
+  let g:ale_linters = {
+                          \'c':['clang'],
+                          \'c++':['clang'],
+                          \}
+  "前、后一个错误或警告
+  nmap sp <Plug>(ale_previous_wrap)
+  nmap np <Plug>(ale_next_wrap)
+  "开启／关闭语法检查
+  nmap <Leader>s :ALEToggle<CR>
+  "查看详细信息
+  nmap <Leader>d :ALEDetail<CR>
+" YCM
+Bundle 'Valloric/YouCompleteMe'
+  " youcompleteme  默认tab  s-tab 和自动补全冲突
+  let g:ycm_key_list_select_completion=['<c-n>']
+  let g:ycm_key_list_select_completion = ['<Down>']
+  let g:ycm_key_list_previous_completion=['<c-p>']
+  let g:ycm_key_list_previous_completion = ['<Up>']
+  let g:ycm_confirm_extra_conf=0
+  let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf_for_C++/.ycm_extra_conf.py'
+  let g:ycm_collect_identifiers_from_tags_files=1    " 开启 YCM 基于标签引擎
+  let g:ycm_min_num_of_chars_for_completion=5    "从第2个键入字符就开始罗列匹配项
+  let g:ycm_seed_identifiers_with_syntax=1   " 语法关键字补全
+  " disable ycm 语法检查
+  let g:ycm_enable_diagnostic_signs = 0
+  let g:ycm_enable_diagnostic_highlighting = 0
+  " ycmd setting
+  let g:ycm_error_symbol = 'K'
+  let g:ycm_warning_symbol = 'O'
+  inoremap <leader><leader> <C-x><C-o>
+  ""在注释输入中也能补全
+  let g:ycm_complete_in_comments = 1
+  "在字符串输入中也能补全
+  let g:ycm_complete_in_strings = 1
+  "注释和字符串中的文字也会被收入补全
+  let g:ycm_collect_identifiers_from_comments_and_strings = 0
+  set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+  nmap <F9> :YcmRestartServer<CR>
+" fugitive for git support in vim
+Bundle 'tpope/vim-fugitive'
+" rainbow parentheses
+Bundle 'kien/rainbow_parentheses.vim'
+  au VimEnter * RainbowParenthesesToggle
+  au Syntax * RainbowParenthesesLoadRound
+  au Syntax * RainbowParenthesesLoadSquare
+  au Syntax * RainbowParenthesesLoadBraces
+" modified Doxygen toolkit for comment gen
 Bundle 'DoxygenToolkit.vim'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'bling/vim-airline'
+  " For all keys
+  let g:DoxygenToolkit_startCommentTag="/*! "
+  let g:DoxygenToolkit_startCommentBlock="/* "
+  let g:DoxygenToolkit_paramTag_pre="@param[in/out] "
+  let g:DoxygenToolkit_returnTag="@return"
+Bundle 'kien/ctrlp.vim'
+  let g:ctrlp_map = ',,'
+" gutentags
+Bundle 'ludovicchabant/vim-gutentags'
+  " gutentags搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归 "
+  let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
+  " 所生成的数据文件的名称 "
+  let g:gutentags_ctags_tagfile = '.tags'
+  " 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录 "
+  let s:vim_tags = expand('~/.cache/tags')
+  let g:gutentags_cache_dir = s:vim_tags
+  " 检测 ~/.cache/tags 不存在就新建 "
+  if !isdirectory(s:vim_tags)
+    silent! call mkdir(s:vim_tags, 'p')
+  endif
+  set tags+=~/.cache/tags
+  " 配置 ctags 的参数 "
+  let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+  let g:gutentags_ctags_extra_args += ['--c++-kinds=+pxI']
+  let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+  let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
+" tagbar
+Bundle 'majutsushi/tagbar'
+  autocmd VimEnter * nested :TagbarOpen
+  nmap <F7> :TagbarToggle<CR>
+  let g:tagbar_autofocus = 1
+  let g:tagbar_ctags_bin = 'ctags'
+  let g:tagbar_left = 1
+" vim-airline
+" will automatic load ctrlp and tagbar
+Bundle 'vim-airline/vim-airline'
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#branch#enabled=1
+  let g:airline#extensions#ctrlp#show_adjacent_modes = 1
 Bundle 'Yggdroot/indentLine'
   let g:indentLine_color_term=0
   let g:indentLine_noConcealCursor = 1
   let g:indetnLine_char='︙'
 Bundle 'bronson/vim-trailing-whitespace'
-Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
-Bundle 'kien/ctrlp.vim'
 Bundle 'The-NERD-tree'
-Bundle 'majutsushi/tagbar'
 Bundle 'matchit.zip'
 "Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-rails'
-Bundle 'taglist.vim'
 "Bundle 'garbas/vim-snipmate'
 Bundle 'SirVer/ultisnips'
 Bundle 'vimwiki/vimwiki'
@@ -70,8 +166,6 @@ function! NumberToggle()
   endif
 endfunc
 nnoremap <C-n> :call NumberToggle()<cr>
-
-
 " 突出显示当前行
 set cursorline
 " 打开状态栏标尺
@@ -103,85 +197,10 @@ set cindent
 " 智能对齐方式
 set smartindent
 set wildmenu
-
-"""""""""""""""""""""""""""""""""
-""Tlist setting
-"""""""""""""""""""""""""""""""""
-nmap <silent> <leader>tt :silent! Tlist<CR>
-
-"设置ctags路径
-"let Tlist_Ctags_Cmd = '/usr/local/bin'
-
-"启动vim后自动打开taglist窗口
-let Tlist_Auto_Open = 1
-
-"不同时显示多个文件的tag，仅显示一个
-let Tlist_Show_One_File = 1
-
-"taglist为最后一个窗口时，退出vim
-let Tlist_Exit_OnlyWindow = 1
-
-"taglist窗口显示在右侧，缺省为左侧
-"let Tlist_Use_Right_Window =1
-
-"设置taglist窗口大小
-"let Tlist_WinHeight = 100
-let Tlist_WinWidth = 30
-
-"设置taglist打开关闭的快捷键F7
-noremap <F7> :TlistToggle<CR>
-
-"更新ctags标签文件快捷键设置
-noremap <F6> :!ctags -R<CR>
-
-""""""""""""""""""""""""""""""""""""""""""""
-"cscope setting
-""""""""""""""""""""""""""""""""""""""""""'"
-if has("cscope")
-    set csprg=/usr/bin/cscope
-    set csto=0
-    set cst
-    set nocsverb
-    " add any database in current directory
-    if filereadable("cscope.out")
-        cs add cscope.out
-    " else add database pointed to by environment
-    elseif $CSCOPE_DB != ""
-        cs add $CSCOPE_DB
-    endif
-    set csverb
-    set cscopetag
-	set cscopequickfix=s-,c-,d-,t-,e-,i-
-	"set cscopequickfix=s-,g-,c-,d-,t-,e-,f-,i-
-    "set cscopequickfix=s-,c-,d-,t-,e-,i-,g0,f0
-
-    nmap <C-@>s :cs find s <C-R>=expand("<cword>")<CR><CR>:copen<CR>
-    nmap <C-@>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@>c :cs find c <C-R>=expand("<cword>")<CR><CR>:copen<CR>
-    nmap <C-@>t :cs find t <C-R>=expand("<cword>")<CR><CR>:copen<CR>
-    nmap <C-@>e :cs find e <C-R>=expand("<cword>")<CR><CR>:copen<CR>
-    nmap <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>:copen<CR>
-    nmap <C-@>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>:copen<CR>
-    nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR>:copen<CR>
-endif
 map <M-F2> :tabnew<CR>
 map <F3> :tabnew .<CR>
 map <C-F3> : \be
-" 设置winmanager
-" 设置界面分割
-let g:winManagerWindowLayout = "TagList|FileExplorer"
-"设置winmanager的宽度，默认为25
-let g:winManagerWidth = 30
-"定义打开关闭winmanager快捷键为F8
-"nmap <silent> <F8> :WMToggle<cr>
-"在进入vim时自动打开winmanager
-let g:AutoOpenWinManager = 1
-
 " Aireline
-let g:ctrlp_map = ',,'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#branch#enabled=1
-let g:airline#extensions#ctrlp#show_adjacent_modes = 1
 "timeoutlen=50
 set t_Co=256
 "hi Normal ctermbg=NONE
@@ -195,41 +214,11 @@ command Wq wq
 command Q q
 command WQ wq
 command Wqa wqa
-
-"YCM
-"youcompleteme  默认tab  s-tab 和自动补全冲突
-let g:ycm_key_list_select_completion=['<c-n>']
-let g:ycm_key_list_select_completion = ['<Down>']
-let g:ycm_key_list_previous_completion=['<c-p>']
-let g:ycm_key_list_previous_completion = ['<Up>']
-let g:ycm_confirm_extra_conf=0
-let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf_for_C++/.ycm_extra_conf.py'
-let g:ycm_collect_identifiers_from_tags_files=1    " 开启 YCM 基于标签引擎
-let g:ycm_min_num_of_chars_for_completion=1    "从第2个键入字符就开始罗列匹配项
-let g:ycm_cache_omnifunc=0 " 禁止缓存匹配项,每次都重新生成匹配项
-let g:ycm_seed_identifiers_with_syntax=1   " 语法关键字补全
-nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>   "force recomile with syntastic
-inoremap <leader><leader> <C-x><C-o>
-""在注释输入中也能补全
-let g:ycm_complete_in_comments = 1
-"在字符串输入中也能补全
-let g:ycm_complete_in_strings = 1
-"注释和字符串中的文字也会被收入补全
-let g:ycm_collect_identifiers_from_comments_and_strings = 0
-set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
-nmap <F9> :YcmRestartServer<CR>
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
-
-"Doxygen
-" For all keys
-let g:DoxygenToolkit_startCommentTag="/*! "
-let g:DoxygenToolkit_startCommentBlock="/* "
-let g:DoxygenToolkit_paramTag_pre="@param[in/out] "
-let g:DoxygenToolkit_returnTag="@return"
 "Auto file header
 au BufNewFile *.c,*.h,*.hpp,*.cpp,*.cc exec ":call SetTitle()"
 
