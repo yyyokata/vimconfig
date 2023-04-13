@@ -45,7 +45,7 @@ version_info.json
 
 # Vim swap files
 [._]*.sw[a-p]
-.netrwhist
+[._]*.netrwhist
 
 # Source indexing files
 compile_commands.json

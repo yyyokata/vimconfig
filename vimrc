@@ -131,7 +131,6 @@ Plugin 'jlanzarotta/bufexplorer'
   nnoremap <F6> :ToggleBufExplorer<CR>
 Plugin 'preservim/nerdtree'
   nnoremap <F3> :NERDTreeToggle<CR>
-  let NERDTreeMapOpenInTab='<ENTER>'
 "  autocmd StdinReadPre * let s:std_in=1
 "  autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 "  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
@@ -151,6 +150,24 @@ call vundle#end()
 set nocompatible
 " file type detection on/indent on
 filetype indent on
+" Enable syntax highlighting for LLVM files. To use, copy
+" utils/vim/syntax/llvm.vim to ~/.vim/syntax .
+augroup filetype
+  au! BufRead,BufNewFile *.ll     set filetype=llvm
+augroup END
+
+" Enable syntax highlighting for tablegen files. To use, copy
+" utils/vim/syntax/tablegen.vim to ~/.vim/syntax .
+augroup filetype
+  au! BufRead,BufNewFile *.td     set filetype=tablegen
+augroup END
+
+" Enable syntax highlighting for reStructuredText files. To use, copy
+" rest.vim (http://www.vim.org/scripts/script.php?script_id=973)
+" to ~/.vim/syntax .
+augroup filetype
+ au! BufRead,BufNewFile *.rst     set filetype=rest
+augroup END
 " 拼写检查
 set spell spelllang=en_us
 setlocal spell spelllang=en_us,cjk
