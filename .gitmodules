@@ -79,3 +79,6 @@
 [submodule "vim/bundle/vim-gutentags"]
 	path = vim/bundle/vim-gutentags
 	url = git@github.com:ludovicchabant/vim-gutentags.git
+[submodule "vim/bundle/bufexplorer"]
+	path = vim/bundle/bufexplorer
+	url = git@github.com:jlanzarotta/bufexplorer.git

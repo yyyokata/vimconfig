@@ -126,13 +126,16 @@ Plugin 'Yggdroot/indentLine'
   let g:indetnLine_char='︙'
 " matchit for % in config
 Plugin 'matchit.zip'
+" bufexplorer
+Plugin 'jlanzarotta/bufexplorer'
+  nnoremap <F6> :ToggleBufExplorer<CR>
 Plugin 'preservim/nerdtree'
   nnoremap <F3> :NERDTreeToggle<CR>
   let NERDTreeMapOpenInTab='<ENTER>'
-  autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
-  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
-        \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+"  autocmd StdinReadPre * let s:std_in=1
+"  autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+"  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+"        \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
 " Trailing whitespace to be highlighted in red.
 Plugin 'bronson/vim-trailing-whitespace'
 " change surround
