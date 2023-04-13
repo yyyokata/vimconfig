@@ -1,17 +1,18 @@
-set nocompatible
-filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 " All themes
-Bundle 'Railscasts-Theme-GUIand256color'
-Bundle 'desert.vim'
-Bundle 'desert256.vim'
-Bundle 'tomasr/molokai'
-Bundle 'altercation/vim-colors-solarized'
+Plugin 'Railscasts-Theme-GUIand256color'
+Plugin 'desert.vim'
+Plugin 'desert256.vim'
+Plugin 'tomasr/molokai'
+Plugin 'altercation/vim-colors-solarized'
+  let g:solarized_termcolors=256
+  " 设定配色方案
+  colorscheme solarized
 Plugin 'jpo/vim-railscasts-theme'
-Bundle 'wombat.vim'
+Plugin 'wombat.vim'
 " ale
 Plugin 'dense-analysis/ale'
   "始终开启标志列
@@ -41,7 +42,7 @@ Plugin 'dense-analysis/ale'
   "查看详细信息
   nmap <Leader>d :ALEDetail<CR>
 " YCM
-Bundle 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
   " youcompleteme  默认tab  s-tab 和自动补全冲突
   let g:ycm_key_list_select_completion=['<c-n>']
   let g:ycm_key_list_select_completion = ['<Down>']
@@ -68,24 +69,24 @@ Bundle 'Valloric/YouCompleteMe'
   set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
   nmap <F9> :YcmRestartServer<CR>
 " fugitive for git support in vim
-Bundle 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 " rainbow parentheses
-Bundle 'kien/rainbow_parentheses.vim'
+Plugin 'kien/rainbow_parentheses.vim'
   au VimEnter * RainbowParenthesesToggle
   au Syntax * RainbowParenthesesLoadRound
   au Syntax * RainbowParenthesesLoadSquare
   au Syntax * RainbowParenthesesLoadBraces
 " modified Doxygen toolkit for comment gen
-Bundle 'DoxygenToolkit.vim'
+Plugin 'DoxygenToolkit.vim'
   " For all keys
   let g:DoxygenToolkit_startCommentTag="/*! "
   let g:DoxygenToolkit_startCommentBlock="/* "
   let g:DoxygenToolkit_paramTag_pre="@param[in/out] "
   let g:DoxygenToolkit_returnTag="@return"
-Bundle 'kien/ctrlp.vim'
+Plugin 'kien/ctrlp.vim'
   let g:ctrlp_map = ',,'
 " gutentags
-Bundle 'ludovicchabant/vim-gutentags'
+Plugin 'ludovicchabant/vim-gutentags'
   " gutentags搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归 "
   let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
   " 所生成的数据文件的名称 "
@@ -104,51 +105,60 @@ Bundle 'ludovicchabant/vim-gutentags'
   let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
   let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 " tagbar
-Bundle 'majutsushi/tagbar'
-  autocmd VimEnter * nested :TagbarOpen
+Plugin 'majutsushi/tagbar'
+  autocmd VimEnter * nested :TagbarOpen | wincmd p
   nmap <F7> :TagbarToggle<CR>
-  let g:tagbar_autofocus = 1
+  let g:tagbar_autofocus = 0
   let g:tagbar_ctags_bin = 'ctags'
   let g:tagbar_left = 1
 " vim-airline
 " will automatic load ctrlp and tagbar
-Bundle 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline'
   let g:airline#extensions#tabline#enabled = 1
   let g:airline#extensions#branch#enabled=1
   let g:airline#extensions#ctrlp#show_adjacent_modes = 1
-Bundle 'Yggdroot/indentLine'
+  " xshell color
+  set t_Co=256
+" indentLine
+Plugin 'Yggdroot/indentLine'
   let g:indentLine_color_term=0
   let g:indentLine_noConcealCursor = 1
   let g:indetnLine_char='︙'
-Bundle 'bronson/vim-trailing-whitespace'
-Bundle 'tpope/vim-surround'
-Bundle 'The-NERD-tree'
-Bundle 'matchit.zip'
-"Bundle 'scrooloose/syntastic'
-Bundle 'tpope/vim-rails'
-"Bundle 'garbas/vim-snipmate'
-Bundle 'SirVer/ultisnips'
-Bundle 'vimwiki/vimwiki'
+" matchit for % in config
+Plugin 'matchit.zip'
+Plugin 'preservim/nerdtree'
+  nnoremap <F3> :NERDTreeToggle<CR>
+  let NERDTreeMapOpenInTab='<ENTER>'
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+        \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+" Trailing whitespace to be highlighted in red.
+Plugin 'bronson/vim-trailing-whitespace'
+" change surround
+Plugin 'tpope/vim-surround'
+Plugin 'SirVer/ultisnips'
   let g:UltiSnipsExpandTrigger="<tab>"
   let g:UltiSnipsJumpForwardTrigger="<tab>"
   let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+Plugin 'vimwiki/vimwiki'
 call vundle#end()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible
+" file type detection on/indent on
+filetype indent on
+" 拼写检查
 set spell spelllang=en_us
 setlocal spell spelllang=en_us,cjk
 " 自动语法高亮
 if has("syntax")
 syntax on
 endif
-filetype indent on
 " Enable mouse usage all modes "使用鼠标
 set mouse=a
 set background=light
-set nocompatible
 set backspace=indent,eol,start
-
-let g:solarized_termcolors=256
-" 设定配色方案
-colorscheme solarized
 " 显示行号
 set number
 " 相对行号 nj/nk跳转
@@ -187,7 +197,6 @@ set showmatch
 set matchtime=2
 " 显示状态栏 (默认值为 1, 无法显示状态栏)
 set laststatus=2
-"
 "set expandtab
 "high light search contex
 set hlsearch
@@ -197,14 +206,6 @@ set cindent
 " 智能对齐方式
 set smartindent
 set wildmenu
-map <M-F2> :tabnew<CR>
-map <F3> :tabnew .<CR>
-map <C-F3> : \be
-" Aireline
-"timeoutlen=50
-set t_Co=256
-"hi Normal ctermbg=NONE
-"hi Normal ctermfg=252 ctermbg=none
 map <F1> <ESC>
 imap <F1> <ESC>
 " 防止手滑
@@ -219,32 +220,3 @@ command Wqa wqa
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
-"Auto file header
-au BufNewFile *.c,*.h,*.hpp,*.cpp,*.cc exec ":call SetTitle()"
-
-func SetAuthor()
-  call setline(1, ["/*************************************************************************"," * Copyright (C) [2020-2023] by Cambricon, Inc."," * Author: Nan Lin"," * Created Time:".strftime("%c")," * File Name:".expand("%")," * Description: ","*************************************************************************/"])
-endfunc
-
-func SetMacro()
-  let filepath=expand("%:p")
-  let filename=expand("%")
-  let path=matchstr(filepath,'magicmind\/\zsmagicmind.*'.filename.'\ze')
-  let macro=toupper(tr(path,"/.","__")."_")
-  call append(line("$"), ["#ifndef ".macro,"#define ".macro,"namespace magicmind {","}  // namespace magicmind","#endif  // ".macro])
-endfunc
-
-func SetNameSpace()
-  call append(line("$"), ["namespace magicmind {","}  // namespace magicmind"])
-endfunc
-
-
-func SetTitle()
-  call SetAuthor()
-  if expand("%:e") == 'hpp' || expand("%:e") == 'h'
-    call SetMacro()
-  endif
-  if expand("%:e") == 'cc' || expand("%:e") == 'cpp'
-    call SetNameSpace()
-  endif
-endfunc

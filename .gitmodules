@@ -13,9 +13,6 @@
 [submodule "vim/bundle/vim-wombat-scheme"]
 	path = vim/bundle/vim-wombat-scheme
 	url = git@github.com:sheerun/vim-wombat-scheme.git
-[submodule "vim/bundle/autoHEADER"]
-	path = vim/bundle/autoHEADER
-	url = git@github.com:shanzi/autoHEADER.git
 [submodule "vim/bundle/ctrlp.vim"]
 	path = vim/bundle/ctrlp.vim
 	url = git@github.com:kien/ctrlp.vim.git
