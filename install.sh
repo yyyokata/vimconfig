@@ -4,7 +4,7 @@ cd $(dirname ${BASH_SOURCE[0]})
 CURRENT_PATH=$(pwd)
 
 cd ./vim/bundle/YouCompleteMe
-python install.py --clang-completer --clangd-completer --force-sudo
+python3 install.py --clang-completer --clangd-completer --force-sudo
 cd -
 
 if [[ -f ~/.vimrc || -L ~/.vimrc ]]; then
