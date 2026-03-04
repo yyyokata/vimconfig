@@ -1,3 +1,4 @@
+set encoding=utf-8
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " let Vundle manage Vundle, required
@@ -72,7 +73,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-fugitive'
 " rainbow parentheses
 Plugin 'kien/rainbow_parentheses.vim'
-  au VimEnter * RainbowParenthesesToggle
+  autocmd VimEnter * RainbowParenthesesToggle
   au Syntax * RainbowParenthesesLoadRound
   au Syntax * RainbowParenthesesLoadSquare
   au Syntax * RainbowParenthesesLoadBraces
